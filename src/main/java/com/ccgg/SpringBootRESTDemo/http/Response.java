@@ -16,7 +16,7 @@ public class Response {
 		super();
 		this.success = success;
 		this.code = success ? 200 : 400;
-		this.message = "Pingsheng Gao";
+		this.message = "success";
 	}
 
 	public Response() {

@@ -40,7 +40,7 @@ public class UserController {
 	
 	@PostMapping
 	public Response addUser(@RequestBody User user) {
-		return userService.register(user);
+		return userService.registerAdm(user);
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
