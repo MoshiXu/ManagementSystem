@@ -15,46 +15,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccgg.SpringBootRESTDemo.beans.Message;
 import com.ccgg.SpringBootRESTDemo.beans.User;
+import com.ccgg.SpringBootRESTDemo.dao.MessageDao;
 import com.ccgg.SpringBootRESTDemo.dao.UserDao;
 import com.ccgg.SpringBootRESTDemo.http.Response;
+import com.ccgg.SpringBootRESTDemo.service.MessageService;
 import com.ccgg.SpringBootRESTDemo.service.UserService;
 
 @RestController()
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/message")
+public class MessageController {
 	@Autowired
 	UserDao userDao;
 	
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	MessageDao messageDao;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
-	
-	//get
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	@GetMapping
-	public List<User> getUsers(){
-		return userDao.findAll();
-	}
-	
+	MessageService messageService;
+
 	//post
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@PostMapping
-	public Response addUser(@RequestBody User user) {
-		return userService.registerAdm(user);
+	public Response addMessage(@RequestBody Message message,Authentication authentication) {
+		return messageService.addMessage(message,authentication);
 	}
 	
-	//put 
+	//get all the user info 
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@GetMapping("/{messageId}")
+	public List<String> getMessages(@PathVariable int messageId) {
+		return messageService.getMessage(messageId);
+	}
+	/*
+	public List<Message> getMessages(){
+		return messageDao.findAll();
+	}
+	*/
+	
+	//put
+	//edit the content of comment
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@PutMapping
-	public Response changeUser(@RequestBody User user, Authentication authentication) {
-		return userService.changePassword(user, authentication);
+	public Response changeMessage(@RequestBody Message message) {
+		return messageService.editMessage(message);
 	}
 	
 	//delete
-	@DeleteMapping("/{id}")
-	public Response deleteUser(@PathVariable int id) {
-		return userService.deleteUser(id);
+	@DeleteMapping("/{messageId}")
+	public Response deleteMessage(@PathVariable int messageId) {
+		return messageService.deleteMessage(messageId);
 	}
 }

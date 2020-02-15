@@ -40,7 +40,7 @@ public class UserService {
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
 		profiles.add(new UserProfile(1));
 		user.setProfiles(profiles);
-		System.out.println(user);
+		System.out.println("Registered User: "+user);
 		userDao.save(user);
 		return new Response(true);
 	}
@@ -74,4 +74,7 @@ public class UserService {
 			return new Response(false, "User is not found!");
 		}
 	}
+	
+
+	
 }

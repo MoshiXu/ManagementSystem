@@ -21,7 +21,6 @@ public class Response {
 
 	public Response() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Response(boolean success, int code, String message) {
