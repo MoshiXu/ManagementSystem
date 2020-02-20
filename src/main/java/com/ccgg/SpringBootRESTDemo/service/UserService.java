@@ -74,7 +74,4 @@ public class UserService {
 			return new Response(false, "User is not found!");
 		}
 	}
-	
-
-	
 }

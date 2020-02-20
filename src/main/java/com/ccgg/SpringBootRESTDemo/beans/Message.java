@@ -1,6 +1,8 @@
 package com.ccgg.SpringBootRESTDemo.beans;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,9 +32,13 @@ public class Message {
 	@SequenceGenerator(name = "SEQ", sequenceName = "CCGG_USER_SEQ")
 	private int messageId;
 	
-	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name="user_id")
-	@JsonIgnore
+//	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+//	@JoinColumn(name="user_id")
+//	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinTable(name = "message_user", joinColumns = {
+			@JoinColumn(name = "message_id", referencedColumnName = "messageId")}, inverseJoinColumns = {
+					@JoinColumn(name = "user_id", referencedColumnName = "id")})
 	private User user;
 	
 	@Column
@@ -69,7 +77,6 @@ public class Message {
 	}
 	
 	
-	
 	public Message() {
 		super();
 	}
@@ -80,9 +87,6 @@ public class Message {
 		this.messageDate=date;
 		this.user=user;
 	}
-	
-	
-	
 	
 }
 

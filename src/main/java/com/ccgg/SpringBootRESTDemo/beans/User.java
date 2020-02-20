@@ -47,7 +47,6 @@ public class User implements UserDetails {
 	private List<Message>messages=new ArrayList<>();
 	
 	//getter and setter
-	
 	public int getId() {
 		return id;
 	}
